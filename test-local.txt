@@ -1,0 +1,69 @@
+================================================================================
+LDAP DIAGNOSTIC TOOL
+================================================================================
+Server: ldap://global.cashmgmt.net:389
+Base DN: DC=global,DC=cashmgmt,DC=net
+================================================================================
+
+TEST 1: Testing LDAP Server Connection
+--------------------------------------------------------------------------------
+✅ Connection successful - server is reachable
+
+TEST 2: Testing User Authentication
+--------------------------------------------------------------------------------
+Username: kokpituser2
+⚠️  SKIPPED: Please update testPassword in the script
+
+TEST 3: Testing Service Account Configurations
+================================================================================
+
+Testing: UPN Format - KokpitUser
+Bind DN: KokpitUser@global.cashmgmt.net
+✅ Bind successful
+   Attempting search...
+✅ Search successful - User found!
+   DN: DN {
+  length: [Getter],
+  childOf: [Function: childOf],
+  clone: [Function: clone],
+  equals: [Function: equals],
+  format: [Function: format],
+  isEmpty: [Function: isEmpty],
+  parent: [Function: parent],
+  parentOf: [Function: parentOf],
+  pop: [Function: pop],
+  push: [Function: push],
+  rdnAt: [Function: rdnAt],
+  reverse: [Function: reverse],
+  setFormat: [Function: setFormat],
+  shift: [Function: shift],
+  toString: [Function: toString],
+  unshift: [Function: unshift],
+}
+   cn: [ "Kokpit User-2" ]
+   distinguishedName: [ "CN=Kokpit User-2,OU=Service Account,OU=USERS,OU=LOOMIS,OU=TR,OU=TR,OU=PROD,DC=global,DC=cashmgmt,DC=net" ]
+   mail: [ "kokpituser@loomis.com" ]
+
+Testing: CN Format - Users
+Bind DN: CN=KokpitUser,CN=Users,DC=global,DC=cashmgmt,DC=net
+❌ Bind failed: Invalid Credentials
+
+Testing: CN Format - OU=Users
+Bind DN: CN=KokpitUser,OU=Users,DC=global,DC=cashmgmt,DC=net
+❌ Bind failed: Invalid Credentials
+
+TEST 4: Searching for user location in directory
+--------------------------------------------------------------------------------
+Searching for: kokpituser2
+Testing 5 different base DNs...
+
+Trying: DC=global,DC=cashmgmt,DC=net
+Trying: CN=Users,DC=global,DC=cashmgmt,DC=net
+Trying: OU=Users,DC=global,DC=cashmgmt,DC=net
+Trying: OU=Employees,DC=global,DC=cashmgmt,DC=net
+Trying: OU=User Accounts,DC=global,DC=cashmgmt,DC=net
+  ⚠️  Not found in this base
+  ✅ FOUND! DN: CN=Kokpit User-2,OU=Service Account,OU=USERS,OU=LOOMIS,OU=TR,OU=TR,OU=PROD,DC=global,DC=cashmgmt,DC=net
+  ❌ Stream error: No Such Object
+  ❌ Stream error: No Such Object
+  ❌ Stream error: No Such Object

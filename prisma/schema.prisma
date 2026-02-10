@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlserver"
+}
+
+model User {
+  id                  String   @id @default(cuid())
+  firstName           String   @db.VarChar(100)
+  lastName            String   @db.VarChar(100)
+  email               String   @unique
+  normalizedFirstName String?
+  normalizedLastName  String?
+  password            String?
+  phone               String?
+  role                String   @default("User") // "Admin" or "User"
+  isActive            Boolean  @default(true)
+  department          String?
+  title               String?
+  office              String?
+  distinguishedName   String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // Relations
+  groups           Group[]  @relation("GroupMembers")
+  favouriteReports Report[] @relation("UserFavourites")
+  views            View[]
+  reports          Report[]
+
+  @@index([email])
+  @@index([normalizedFirstName, normalizedLastName])
+  @@map("users")
+}
+
+model Group {
+  id                    String   @id @default(cuid())
+  name                  String
+  description           String   @db.Text
+  normalizedName        String?
+  normalizedDescription String?  @db.Text
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relations
+  members User[]   @relation("GroupMembers")
+  reports Report[] @relation("ReportGroups")
+
+  @@index([normalizedName])
+  @@map("groups")
+}
+
+model Category {
+  id                    String   @id @default(cuid())
+  name                  String   @unique
+  description           String   @db.Text
+  normalizedName        String?
+  normalizedDescription String?  @db.Text
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relations
+  reports Report[]
+
+  @@index([normalizedName])
+  @@map("categories")
+}
+
+model Report {
+  id                    String   @id @default(cuid())
+  name                  String   @unique
+  slug                  String   @unique
+  reportPath            String?
+  description           String   @db.Text
+  normalizedName        String?
+  normalizedDescription String?  @db.Text
+  isActive              Boolean  @default(true)
+  status                String   @default("Pending")
+  type                  String   @default("Internal")
+  link                  String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Foreign Keys
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  updatedById String?
+  updatedBy   User?    @relation(fields: [updatedById], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  // Relations
+  groups       Group[] @relation("ReportGroups")
+  favouritedBy User[]  @relation("UserFavourites")
+  views        View[]
+
+  @@index([categoryId])
+  @@index([slug])
+  @@index([normalizedName])
+  @@index([status, isActive])
+  @@map("reports")
+}
+
+model View {
+  id        String   @id @default(cuid())
+  ipAddress String
+  userAgent String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Keys
+  reportId String
+  report   Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([reportId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("views")
+}
