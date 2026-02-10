@@ -4,7 +4,7 @@ export const configs = {
   
   // API Configuration
   //NEXT_PUBLIC_API_URL: "http://localhost:3000", // Local development
-  NEXT_PUBLIC_API_URL: "https://loomis-jlya28c58-mertizgahis-projects.vercel.app/", // Local development
+  NEXT_PUBLIC_API_URL: "https://loomis-jlya28c58-mertizgahis-projects.vercel.app", // Local development
   //NEXT_PUBLIC_API_URL: "http://10.225.9.10",
   //NEXT_PUBLIC_API_URL: 'https://reporting-web-app.arneca.app',
   
@@ -18,7 +18,7 @@ export const configs = {
   
   // CORS
   ALLOWED_ORIGINS: [
-    "https://reporting-web-app.arneca.app",
+    "https://loomis-jlya28c58-mertizgahis-projects.vercel.app/",
     "http://localhost:3000",
     "http://10.225.9.10"
   ],
