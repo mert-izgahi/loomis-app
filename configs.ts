@@ -3,7 +3,8 @@ export const configs = {
   JWT_SECRET: "fd31698f282527e441ff821d1be0d74d4c3375019a06ab10235ade12dbe02a42",
   
   // API Configuration
-  NEXT_PUBLIC_API_URL: "http://localhost:3000", // Local development
+  //NEXT_PUBLIC_API_URL: "http://localhost:3000", // Local development
+  NEXT_PUBLIC_API_URL: "https://loomis-jlya28c58-mertizgahis-projects.vercel.app/", // Local development
   //NEXT_PUBLIC_API_URL: "http://10.225.9.10",
   //NEXT_PUBLIC_API_URL: 'https://reporting-web-app.arneca.app',
   
